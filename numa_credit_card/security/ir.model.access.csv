@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_credit_card_voucher_general,account.credit_card_voucher,model_account_credit_card_voucher,,1,1,1,0
-access_credit_card_account_general,account.credit_card_account,model_account_credit_card_account,account.group_account_manager,1,1,1,1

@@ -1,5 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_res_branch_everyone","Branches for everyone","model_res_branch",,1,0,0,0
-"access_res_branch_manager","Branches management","model_res_branch","base.group_no_one",1,1,1,1
-"access_res_sales_point_everyone","Sales point for everyone","model_res_sales_point",,1,0,0,0
-"access_res_sales_point_manager","Sales point management","model_res_sales_point","base.group_no_one",1,1,1,1
