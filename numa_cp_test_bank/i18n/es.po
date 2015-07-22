@@ -1,0 +1,47 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* numa_cp_test_bank
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-11 23:25+0000\n"
+"PO-Revision-Date: 2015-07-11 23:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: numa_cp_test_bank
+#: model:ir.actions.report.xml,name:numa_cp_test_bank.action_report_cheque
+msgid "Cheque"
+msgstr "Cheque"
+
+#. module: numa_cp_test_bank
+#: view:website:numa_cp_test_bank.report_cheque
+msgid "Due Date"
+msgstr "Fecha de vencimiento"
+
+#. module: numa_cp_test_bank
+#: view:website:numa_cp_test_bank.report_cheque
+msgid "Issued Date"
+msgstr "Fecha de emisión"
+
+#. module: numa_cp_test_bank
+#: view:website:numa_cp_test_bank.report_cheque
+msgid "Number"
+msgstr "Número"
+
+#. module: numa_cp_test_bank
+#: view:website:numa_cp_test_bank.report_cheque
+msgid "Original Amount"
+msgstr "Importe original"
+
+#. module: numa_cp_test_bank
+#: view:website:numa_cp_test_bank.report_cheque
+msgid "Payed to"
+msgstr "Pagado a"
+

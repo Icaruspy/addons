@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+        ======================
+        account bank printing model
+        ======================
+        -->
+
+        <record id="account_bank_printing_model_form" model="ir.ui.view">
+            <field name="name">Bank printing model</field>
+            <field name="model">account.bank_printing_model</field>
+            <field name="arch" type="xml">
+                <form string="Pay payable documents">
+                    <group>
+                        <field name="name"/>
+                        <field name="report"/>
+                        <field name="notes"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="account_bank_printing_model_tree" model="ir.ui.view">
+            <field name="name">Bank printing model</field>
+            <field name="model">account.bank_printing_model</field>
+            <field name="arch" type="xml">
+                <tree string="Pay payable documents">
+                    <field name="name"/>
+                    <field name="report"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="account_bank_printing_model_action" model="ir.actions.act_window">
+            <field name="name">Bank printing model</field>
+            <field name="res_model">account.bank_printing_model</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <menuitem id="account_bank_printing_model_menu"
+            action="account_bank_printing_model_action" 
+            parent="account.menu_configuration_misc" 
+            sequence="4"/>
+
+        <!--
+        ======================
+        res_bank
+        ======================
+        -->
+
+        <record id="view_res_bank_form" model="ir.ui.view">
+            <field name="name">Bank with auto printing</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <group string="Address" position="after">
+                        <group string="Automatic printing">
+                            <field name="current_printing_model"
+                                   options="{'no_create': True, 'no_edit': True}"/>
+                        </group>
+                    </group>
+                </data>
+            </field>
+        </record>
+
+        <!--
+        ======================
+        res_partner_bank
+        ======================
+        -->
+
+        <record id="view_partner_bank_form" model="ir.ui.view">
+            <field name="name">Bank account with auto printing</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <group name="bank" position="after">
+                        <group string="Automatic printing">
+                            <field name="auto_cheque_printing" />
+                            <field name="auto_mask" />
+                            <button name="action_print_checks"
+                                    type="object"
+                                    colspan="2"
+                                    string="Assign number and print"/>
+                        </group>
+                    </group>
+                </data>
+            </field>
+        </record>
+
+        <!--
+        ======================
+        account.payable_document
+        ======================
+        -->
+        <record id="pdocument_form" model="ir.ui.view">
+            <field name="name">Payable Document form with Auto Printing</field>
+            <field name="model">account.payable_document</field>
+            <field name="inherit_id" ref="numa_cheque.pdocument_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="payed_on_account" position="after">
+                        <field name="auto_printed" />
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <!--
+        ======================
+        account.cheque_writing
+        ======================
+        -->
+
+        <record id="account_bank_printing_model_form" model="ir.ui.view">
+            <field name="name">Cheque writing wizard</field>
+            <field name="model">account.cheque_writing</field>
+            <field name="arch" type="xml">
+                <form string="Number and print">
+                    <group>
+                        <field name="bank_account"/>
+                        <field name="first_number"/>
+                        <field name="cheque_count"/>
+                        <button name="action_print"
+                                type="object"
+                                colspan="2"
+                                string="Assign number and print"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

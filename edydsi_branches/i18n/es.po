@@ -1,0 +1,293 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* edydsi_branches
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-30 04:57+0000\n"
+"PO-Revision-Date: 2014-12-30 04:57+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: edydsi_branches
+#: view:account.invoice:edydsi_branches.invoice_form
+msgid "Accounting Sales Point .."
+msgstr "Punto de venta contable .."
+
+#. module: edydsi_branches
+#: view:res.sales_point:edydsi_branches.sales_point_form_view
+msgid "Accounting info"
+msgstr "Información contable"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+msgid "Address"
+msgstr "Dirección"
+
+#. module: edydsi_branches
+#: view:account.invoice:edydsi_branches.view_account_invoice_filter
+#: field:account.invoice,branch:0
+#: view:res.branch:edydsi_branches.branch_form_view
+msgid "Branch"
+msgstr "Sucursal"
+
+#. module: edydsi_branches
+#: code:addons/edydsi_branches/models/account_invoice.py:39
+#, python-format
+msgid "Branch should have a defined Legal ID in order to be used! Please check it"
+msgstr "La sucursal debe tener definida un identificador legal para ser usado! Por favor revisar"
+
+#. module: edydsi_branches
+#: view:account.invoice:edydsi_branches.invoice_form
+msgid "Branch..."
+msgstr "Sucursal..."
+
+#. module: edydsi_branches
+#: model:ir.actions.act_window,name:edydsi_branches.branch_action
+#: model:ir.ui.menu,name:edydsi_branches.branch_menu
+#: view:res.branch:edydsi_branches.branch_list_view
+#: view:res.company:edydsi_branches.view_company_form
+#: field:res.company,branches:0
+#: view:res.sales_point:edydsi_branches.sales_point_list_view
+msgid "Branches"
+msgstr "Sucursales"
+
+#. module: edydsi_branches
+#: code:addons/edydsi_branches/models/res_company.py:23
+#, python-format
+msgid "Branches for %s"
+msgstr "Sucursales de %s"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+#: field:res.branch,city:0
+msgid "City"
+msgstr "Ciudad"
+
+#. module: edydsi_branches
+#: model:ir.model,name:edydsi_branches.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: edydsi_branches
+#: field:res.branch,company:0
+#: field:res.sales_point,company:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+#: view:res.sales_point:edydsi_branches.sales_point_form_view
+msgid "Company..."
+msgstr "Compañía..."
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+#: field:res.branch,country:0
+msgid "Country"
+msgstr "País"
+
+#. module: edydsi_branches
+#: field:res.branch,create_uid:0
+#: field:res.sales_point,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: edydsi_branches
+#: field:res.branch,create_date:0
+#: field:res.sales_point,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: edydsi_branches
+#: field:res.branch,default_sales_point:0
+msgid "Default Sales Point"
+msgstr "Punto de venta por defecto"
+
+#. module: edydsi_branches
+#: code:addons/edydsi_branches/models/account_invoice.py:31
+#: code:addons/edydsi_branches/models/account_invoice.py:35
+#: code:addons/edydsi_branches/models/account_invoice.py:38
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: edydsi_branches
+#: field:res.branch,fed_state:0
+msgid "Fed.State"
+msgstr "Provincia/Estado"
+
+#. module: edydsi_branches
+#: selection:res.sales_point,usage:0
+msgid "General"
+msgstr "General"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+msgid "General Information"
+msgstr "Información general"
+
+#. module: edydsi_branches
+#: field:res.branch,id:0
+#: field:res.sales_point,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: edydsi_branches
+#: model:ir.model,name:edydsi_branches.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: edydsi_branches
+#: code:addons/edydsi_branches/models/account_invoice.py:32
+#, python-format
+msgid "Invoice should have a defined branch and sales point in order to be validated! Please check it"
+msgstr "La factura debe tener definida una sucursal y un punto de ventas contable para ser validada! Por favor revisar"
+
+#. module: edydsi_branches
+#: field:res.branch,write_uid:0
+#: field:res.sales_point,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualización por"
+
+#. module: edydsi_branches
+#: field:res.branch,write_date:0
+#: field:res.sales_point,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualización el"
+
+#. module: edydsi_branches
+#: field:res.branch,legal_id:0
+#: field:res.sales_point,legal_id:0
+msgid "Legal ID"
+msgstr "Identificación legal"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+#: view:res.sales_point:edydsi_branches.sales_point_form_view
+msgid "Legal ID..."
+msgstr "Identificación legal..."
+
+#. module: edydsi_branches
+#: field:res.branch,name:0
+#: field:res.sales_point,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: edydsi_branches
+#: field:res.sales_point,sequence:0
+msgid "Order IDs Sequence"
+msgstr "Secuencia"
+
+#. module: edydsi_branches
+#: field:res.branch,phone:0
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: edydsi_branches
+#: selection:res.sales_point,usage:0
+msgid "Point of Sales"
+msgstr "Punto de ventas"
+
+#. module: edydsi_branches
+#: view:account.invoice:edydsi_branches.view_account_invoice_filter
+#: field:account.invoice,sales_point:0
+#: view:res.sales_point:edydsi_branches.sales_point_form_view
+msgid "Sales Point"
+msgstr "Punto de ventas"
+
+#. module: edydsi_branches
+#: model:ir.ui.menu,name:edydsi_branches.sales_point_menu
+#: view:res.company:edydsi_branches.view_company_form
+#: field:res.company,sales_points:0
+msgid "Sales Points"
+msgstr "Puntos de ventas"
+
+#. module: edydsi_branches
+#: code:addons/edydsi_branches/models/account_invoice.py:36
+#, python-format
+msgid "Sales point should have a defined Legal ID in order to be used! Please check it"
+msgstr "Los puntos de venta deben tener una identificación legal para poder ser utilizados! Por favor revisar"
+
+#. module: edydsi_branches
+#: model:ir.actions.act_window,name:edydsi_branches.sales_point_action
+msgid "Sales points"
+msgstr "Puntos de ventas"
+
+#. module: edydsi_branches
+#: code:addons/edydsi_branches/models/res_company.py:44
+#, python-format
+msgid "Sales points for %s"
+msgstr "Puntos de ventas de %s"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+msgid "State"
+msgstr "Provincia/Estado"
+
+#. module: edydsi_branches
+#: field:res.branch,street:0
+msgid "Street and door"
+msgstr "Calle y número"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+msgid "Street and door..."
+msgstr "Calle y número..."
+
+#. module: edydsi_branches
+#: sql_constraint:res.branch:0
+msgid "The branch legal ID must be unique per company!"
+msgstr "La identificación legal debe ser única por compañía!"
+
+#. module: edydsi_branches
+#: sql_constraint:res.branch:0
+msgid "The branch name must be unique per company!"
+msgstr "El nombre de la sucursal debe ser único por compañía!"
+
+#. module: edydsi_branches
+#: sql_constraint:res.sales_point:0
+msgid "The sales point legal ID must be unique per company!"
+msgstr "El identificador legal debe ser único por compañía!"
+
+#. module: edydsi_branches
+#: sql_constraint:res.sales_point:0
+msgid "The sales point name must be unique per company!"
+msgstr "El nombre del punto de venta debe ser único por compañías!"
+
+#. module: edydsi_branches
+#: help:res.sales_point,sequence:0
+msgid "This sequence is automatically created by Odoo but you can change it to customize the reference numbers of your orders."
+msgstr "Esta secuencia es generada automaticamente por el sistema, pero Usted puede cambiarla para adaptar lo números de referencia de sus órdenes."
+
+#. module: edydsi_branches
+#: field:res.sales_point,timbrado:0
+msgid "Timbrado"
+msgstr "Timbrado"
+
+#. module: edydsi_branches
+#: field:res.sales_point,usage:0
+msgid "Usage"
+msgstr "Uso"
+
+#. module: edydsi_branches
+#: field:res.sales_point,timbrado_due_date:0
+msgid "Vencimiento"
+msgstr "Vencimiento"
+
+#. module: edydsi_branches
+#: view:res.branch:edydsi_branches.branch_form_view
+msgid "ZIP"
+msgstr "CP"
+
+#. module: edydsi_branches
+#: field:res.branch,zip:0
+msgid "Zip"
+msgstr "CP"
+

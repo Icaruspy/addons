@@ -1,0 +1,2 @@
+python odoo/odoo.py --config=config/odoo_config $1 $2 $3 $4 $5 $6 $7 $8 $9
+

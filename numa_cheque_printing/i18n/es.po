@@ -1,0 +1,188 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* numa_cheque_printing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-11 23:17+0000\n"
+"PO-Revision-Date: 2015-07-11 23:17+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: numa_cheque_printing
+#: view:res.bank:numa_cheque_printing.view_res_bank_form
+msgid "Address"
+msgstr "Dirección"
+
+#. module: numa_cheque_printing
+#: field:account.payable_document,auto_printed:0
+msgid "Already printed"
+msgstr "Ya impreso"
+
+#. module: numa_cheque_printing
+#: view:account.cheque_writing:numa_cheque_printing.account_bank_printing_model_form
+#: view:res.partner.bank:numa_cheque_printing.view_partner_bank_form
+msgid "Assign number and print"
+msgstr "Asignar numeración e imprimir"
+
+#. module: numa_cheque_printing
+#: field:res.partner.bank,auto_cheque_printing:0
+msgid "Auto cheque writing"
+msgstr "Numeración automática e impresión"
+
+#. module: numa_cheque_printing
+#: view:res.bank:numa_cheque_printing.view_res_bank_form
+#: view:res.partner.bank:numa_cheque_printing.view_partner_bank_form
+msgid "Automatic printing"
+msgstr "Impresión automática"
+
+#. module: numa_cheque_printing
+#: model:ir.model,name:numa_cheque_printing.model_res_bank
+msgid "Bank"
+msgstr "Banco"
+
+#. module: numa_cheque_printing
+#: code:addons/numa_cheque_printing/payable_cheque.py:78
+#, python-format
+msgid "Bank %s has currently no printing model assigned! Please check"
+msgstr "El banco %s not tiene asignado un modelo de impresión de cheques! Por favor revisar"
+
+#. module: numa_cheque_printing
+#: model:ir.model,name:numa_cheque_printing.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Cuentas bancarias"
+
+#. module: numa_cheque_printing
+#: field:account.cheque_writing,bank_account:0
+msgid "Bank account"
+msgstr "Cuenta bancaria"
+
+#. module: numa_cheque_printing
+#: model:ir.actions.act_window,name:numa_cheque_printing.account_bank_printing_model_action
+#: model:ir.ui.menu,name:numa_cheque_printing.account_bank_printing_model_menu
+msgid "Bank printing model"
+msgstr "Modelo de impresión de cheque"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,create_uid:0
+#: field:account.cheque_writing,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,create_date:0
+#: field:account.cheque_writing,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,report:0
+#: field:res.bank,current_printing_model:0
+msgid "Current printing model"
+msgstr "Modelo actual de impresión de cheque"
+
+#. module: numa_cheque_printing
+#: code:addons/numa_cheque_printing/payable_cheque.py:73
+#: code:addons/numa_cheque_printing/payable_cheque.py:77
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: numa_cheque_printing
+#: field:account.cheque_writing,first_number:0
+msgid "First number to assign"
+msgstr "Primer número a asignar"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,id:0
+#: field:account.cheque_writing,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: numa_cheque_printing
+#: field:account.payable_document,issued_date:0
+msgid "Issued date"
+msgstr "Fecha de emisión"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,write_uid:0
+#: field:account.cheque_writing,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualización por"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,write_date:0
+#: field:account.cheque_writing,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualización el"
+
+#. module: numa_cheque_printing
+#: field:res.partner.bank,auto_mask:0
+msgid "Mask for numbering generation"
+msgstr "Máscara para la generación del número"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,name:0
+msgid "Model's name"
+msgstr "Nombre del modelo"
+
+#. module: numa_cheque_printing
+#: field:account.bank_printing_model,notes:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: numa_cheque_printing
+#: view:account.cheque_writing:numa_cheque_printing.account_bank_printing_model_form
+msgid "Number and print"
+msgstr "Numerar e imprimir"
+
+#. module: numa_cheque_printing
+#: view:account.bank_printing_model:numa_cheque_printing.account_bank_printing_model_tree
+msgid "Pay payable documents"
+msgstr "Pagar un documento propio"
+
+#. module: numa_cheque_printing
+#: code:addons/numa_cheque_printing/payable_cheque.py:87
+#, python-format
+msgid "Print cheques for bank %s"
+msgstr "Imprimir cheques para el banco %s"
+
+#. module: numa_cheque_printing
+#: code:addons/numa_cheque_printing/payable_cheque.py:98
+#, python-format
+msgid "This account has no pending cheque to print!"
+msgstr "Esta cuenta no tiene cheques pendientes de impresión!"
+
+#. module: numa_cheque_printing
+#: code:addons/numa_cheque_printing/payable_cheque.py:74
+#, python-format
+msgid "This account is not configured for automatic check printing!"
+msgstr "Esta cuenta no ha sido configurada para impresión automática de cheques!"
+
+#. module: numa_cheque_printing
+#: help:res.partner.bank,auto_mask:0
+msgid "Use the following expresions in mask for proper number generation\n"
+"- %(y4)d for the 4 digits year, %(y2) for 2 digits year (issued date)\n"
+"- %(m)d for the month number\n"
+"- %(d)d for the day number\n"
+"- %(n)d for the number. Normal modifiers, like %(n)08d could be used\n"
+""
+msgstr "Use las siguientes expresiones para generar un número adecuado\n"
+"- %(y4)d año en 4 dígitos, %(y2) año en dos dígitos (fecha de emisión)\n"
+"- %(m)d para el número del año\n"
+"- %(d)d para el día del año\n"
+"- %(n)d para el número básico a asignar. Se pueden aplicar los modificadores normales, tales como %(n)08d\n"
+""
+
+#. module: numa_cheque_printing
+#: code:addons/numa_cheque_printing/payable_cheque.py:97
+#, python-format
+msgid "Warning"
+msgstr "Atención"
+

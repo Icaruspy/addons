@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_customer_reconcile_tree">
+            <field name="name">account.customer_reconcile.tree</field>
+            <field name="model">account.customer_reconcile</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state in ('draft');gray:state in ('cancel')" string="Customer voucher">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner"/>
+                    <field name="journal"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_customer_reconcile_form">
+            <field name="name">account.customer_reconcile.form</field>
+            <field name="model">account.customer_reconcile</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Customer Reconcile" version="7.0">
+                    <header>
+                        <button name="action_post" states="draft" type="object" string="Publish" groups="base.group_user"/>
+                        <button name="action_cancel" states="draft" type="object" string="Cancel" groups="base.group_user"/>
+                        <field name="state" widget="statusbar" 
+                               statusbar_visible="draft,posted,canceled" 
+                               statusbar_colors='{"canceled":"red","draft":"blue"}'/>
+                    </header>
+                    <sheet width="90%">
+                      <h1>
+                          <label string="Customer reconcile" attrs="{'invisible': [('state','not in',('draft'))]}"/>
+                          <field name="name" class="oe_inline" readonly="1"/>
+                      </h1>
+                      <group name="general_info">
+                          <group name="main_info">
+                            <field name="partner" required="1" 
+                                   on_change="onchange_partner(partner, company, period, journal, date)"/>
+                            <field name="journal" select="1" 
+                                   domain="[('type','in',['sale'])]" 
+                                   on_change="onchange_journal(journal, date)"/>
+
+                            <field name="company" widget="selection" 
+                                   on_change="onchange_company(company, journal, partner, period, date)"
+                                   groups="base.group_multi_company"/>
+                            <field name="account" 
+                                   context="{'default_type':'receivable'}"
+                                   domain="[('type','=','receivable')]"/>
+                          </group>
+                          <group name="add_data">
+                            <field name="date" 
+                                   on_change="onchange_date(date, period, partner, currency, company)"/>
+                            <field name="period" 
+                                   domain="[('fiscalyear_id.company_id','=',company)]"/>
+
+                            <field name="currency" readonly="1"/>
+
+                            <field name="balance" readonly="1"/>
+                          </group>
+                          <group name="actions" colspan="4" >
+                            <button name="action_get_credit_and_debts" 
+                                    type="object" 
+                                    string="Get credit and debts" 
+                                    states="draft" 
+                                    icon="terp-camera_test"/>
+                            <button name="action_reasign_credit" 
+                                    type="object" 
+                                    string="Reasign credit" 
+                                    states="draft" 
+                                    icon="terp-camera_test"/>
+                          </group>
+                      </group>
+                      <notebook name="notebook">
+                          <page string="Credits" >
+                              <button name="action_reset_credit_amount" 
+                                      type="object" 
+                                      string="Reset applied amount" 
+                                      states="draft" 
+                                      colspan="2"/>
+
+                              <field name="credits" mode="tree" colspan="4" nolabel="1" height="180" 
+                                     on_change="onchange_lines(debts, credits)" 
+                                     attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                  <tree string="Credits" editable="bottom" create="0">
+                                      <field name="name"/>
+                                      <field name="move_line"
+                                             domain="[('account_id.type','=','receivable'),('state','=','posted'),('move_id.company_id','=',parent.company)]" />
+                                      <field name="ref"/>
+                                      <field name="account"/>
+                                      <field name="partner"/>
+                                      <field name="original_amount"/>
+                                      <field name="original_date"/>
+                                      <field name="maturity_date"/>
+                                      <field name="unreconciled_amount"/>
+                                      <field name="amount" 
+                                             on_change="onchange_amount(amount, unreconciled_amount)"
+                                             sum="Total to apply"/>
+                                  </tree>
+                              </field>
+                          </page>
+                          <page string="Debts" >
+                              <button name="action_reset_debit_amount" 
+                                      type="object" 
+                                      string="Reset applied amount" 
+                                      states="draft" 
+                                      colspan="2"/>
+
+                              <field name="debts" mode="tree" colspan="4" nolabel="1" height="180" 
+                                     on_change="onchange_lines(debts, credits)" 
+                                     attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                  <tree string="Debits" editable="bottom" create="0">
+                                      <field name="name"/>
+                                      <field name="move_line"
+                                             domain="[('account_id.type','=','receivable'),('state','=','posted'),('move_id.company_id','=',parent.company)]" />
+                                      <field name="ref"/>
+                                      <field name="account"/>
+                                      <field name="partner"/>
+                                      <field name="original_amount"/>
+                                      <field name="original_date"/>
+                                      <field name="maturity_date"/>
+                                      <field name="unreconciled_amount"/>
+                                      <field name="amount"
+                                             on_change="onchange_amount(amount, unreconciled_amount)"
+                                             sum="Total to apply"/>
+                                  </tree>
+                              </field>
+                          </page>
+                          <page string="Other info" >
+                              <group string="Accounting">
+                                <field name="to_be_checked" />
+                                <newline />
+                                <field name="move" />
+                                <field name="cancelation_move" />
+                              </group>
+                              <group string="Notes">
+                                <field name="notes" colspan="4" nolabel="1"/>
+                              </group>
+                          </page>
+                      </notebook>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_customer_reconcile_filter" model="ir.ui.view">
+            <field name="name">account.customer_reconcile.select</field>
+            <field name="model">account.customer_reconcile</field>
+            <field name="type">search</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Search customer reconciles">
+                    <group col='8' colspan='4'>
+                        <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Draft vouchers"/>
+                        <filter icon="terp-camera_test" string="Post" domain="[('state','=','posted')]" help="Posted vouchers"/>
+                        <separator orientation="vertical"/>
+                        <filter icon="terp-gtk-jump-to-ltr" string="To be checked" domain="[('to_be_checked','=',True)]" help="To be checked"/>
+                        <separator orientation="vertical"/>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="partner"/>
+                    </group>
+                    <newline/>
+                    <group col='8' colspan='4'>
+                        <field name="journal" widget="selection" context="{'journal': self, 'set_visible':False}" />
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Extended filters ..." col='8' colspan='4'>
+                        <field name="name"/>
+                        <field name="notes"/>
+                   </group>
+                   <newline/>
+                    <group expand="0" string="Grouped by..." colspan="4" col="10">
+                        <filter string="Customer" icon="terp-partner" domain="[]" context="{'group_by':'partner'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal'}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="customer_reconcile_action" model="ir.actions.act_window">
+            <field name="name">Customer reconciles</field>
+            <field name="res_model">account.customer_reconcile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="customer_reconcile_action" id="customer_reconcile_menu"
+            parent="account.menu_finance_receivables" sequence="7"/>
+
+    </data>
+</openerp>

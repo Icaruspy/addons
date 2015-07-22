@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_supplier_voucher_tree">
+            <field name="name">account.supplier_voucher.tree</field>
+            <field name="model">account.supplier_voucher</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state in ('draft');gray:state in ('cancel')" string="supplier voucher">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="reference"/>
+                    <field name="partner"/>
+                    <field name="journal"/>
+                    <field name="state"/>
+                    <field name="cash_total" sum="Total cash"/>
+                    <field name="bt_total" sum="Total transfers"/>
+                    <field name="qm_total" sum="Total retentions"/>
+                    <field name="tpdoc_total" sum="Total third party documents"/>
+                    <field name="odoc_total" sum="Total own documents"/>
+                    <field name="tax_total" sum="Total taxes"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_supplier_voucher_form">
+            <field name="name">account.supplier_voucher.form</field>
+            <field name="model">account.supplier_voucher</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="supplier Voucher" version="7.0">
+                    <header>
+                        <button name="action_ready_to_approve" states="draft" type="object" string="Ready to approve" groups="base.group_user"/>
+                        <button name="action_back_to_draft" states="ready" type="object" string="Back to draft" groups="base.group_user"/>
+                        <button name="action_get_debts" states="draft" type="object" string="Get debts" groups="base.group_user"/>
+                        <button name="action_compute_retentions" states="draft" type="object" string="Compute retentions" groups="base.group_user"/>
+                        <button name="action_post" states="ready" type="object" string="Publish" groups="base.group_user"/>
+                        <button name="action_payment_recognized" states="posted" type="object" string="Received by supplier" groups="base.group_user"/>
+                        <button name="action_print" states="ready,posted,payed" type="object" string="Print" class="oe_highlight" groups="base.group_user"/>
+                        <button name="action_cancel" states="posted,payed" type="object" string="Cancel" groups="base.group_user"/>
+                        <field name="state" widget="statusbar" 
+                               statusbar_visible="draft,ready,posted,payed,canceled" 
+                               statusbar_colors='{"canceled":"red","draft":"blue","ready":"grey","payed":"green"}'/>
+                    </header>
+                    <sheet width="90%">
+                      <h1>
+                          <label string="Draft Supplier voucher" attrs="{'invisible': [('state','not in',('draft','ready'))]}"/>
+                          <field name="name" class="oe_inline" readonly="1" attrs="{'invisible': [('state','in',('draft','ready'))]}"/>
+                      </h1>
+                      <group name="general_info">
+                          <group name="main_info">
+                            <field name="partner" required="1" 
+                                   on_change="onchange_partner(partner, company, period, journal, date)"/>
+                            <field name="journal" select="1" 
+                                   domain="[('type','in',['sale'])]" 
+                                   on_change="onchange_journal(journal, date)"/>
+
+                            <field name="company" widget="selection" 
+                                   on_change="onchange_company(company, journal, partner, period, date)"
+                                   groups="base.group_multi_company"/>
+                            <field name="account" 
+                                   context="{'default_type':'receivable'}"
+                                   domain="[('type','=','receivable')]"/>
+                          </group>
+                          <group name="add_data">
+                            <field name="date" 
+                                   on_change="onchange_date(date, period, partner, currency, company)"/>
+                            <field name="period" 
+                                   domain="[('fiscalyear_id.company_id','=',company)]"/>
+
+                            <field name="currency" readonly="1"/>
+                            <field name="reference" select="1"/>
+
+                            <field name="unassigned_payments" />
+                            <field name="balance" readonly="1"/>
+                          </group>
+                      </group>
+                      <notebook name="notebook">
+                          <page string="Debts and Taxes" >
+                              <button name="action_reasign_credit" 
+                                      type="object" 
+                                      string="Reasign credit" 
+                                      states="draft" 
+                                      icon="terp-camera_test" 
+                                      colspan="2"/>
+                              <button name="action_reset_amount" 
+                                      type="object" 
+                                      string="Reset applied amount" 
+                                      states="draft" 
+                                      colspan="2"/>
+                              <label for="deb_entries" colspan="4"/>
+                              <field name="debt_entries" mode="tree" colspan="4" nolabel="1" height="180" 
+                                     context="{'default_currency':currency, 'default_partner':partner}" 
+                                     on_change="onchange_lines(cash_entries, bt_entries, qm_entries, tpdoc_entries, odoc_entries, debt_entries, tax_entries)" 
+                                     attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                  <tree string="Debts" editable="bottom" create="0">
+                                      <field name="account"/>
+                                      <field name="original_date"/>
+                                      <field name="maturity_date"/>
+                                      <field name="original_amount"/>
+                                      <field name="unreconciled_amount"/>
+                                      <field name="amount" sum="Total debts"/>
+                                      <field name="move_line" invisible="1" />
+                                  </tree>
+                              </field>
+
+                              <label for="tax_entries" colspan="4"/>
+                              <field name="tax_entries" mode="tree" colspan="4" nolabel="1" height="180" 
+                                     context="{'default_currency':currency, 'default_partner':partner}" 
+                                     on_change="onchange_lines(cash_entries, bt_entries, qm_entries, tpdoc_entries, odoc_entries, debt_entries, tax_entries)" 
+                                     attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                  <tree string="Taxes" editable="bottom">
+                                      <field name="sequence" invisible="True"/>
+                                      <field name="tax" 
+                                             context="{'default_partner': parent.partner}"
+                                             on_change="onchange_doc(tax,parent.date,parent.code,parent.company,parent.currency,parent.partner)"/>
+                                      <field name="account"/>
+                                      <field name="base"/>
+                                      <field name="base_amount"/>
+                                      <field name="tax"/>
+                                      <field name="tax_amount" sum="Total taxes"/>
+                                  </tree>
+                              </field>
+                          </page>
+                          <page string="Values">
+                              <group string="Cash" >
+                                <field name="cash_entries" mode="tree" colspan="4" nolabel="1" height="180" 
+                                       context="{'default_currency':currency}" 
+                                       on_change="onchange_lines(cash_entries, bt_entries, qm_entries, tpdoc_entries, odoc_entries, debt_entries, tax_entries)" 
+                                       attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                    <tree string="Cash" editable="bottom">
+                                        <field name="currency" on_change="onchange_currency(currency,original_amount,parent.currency)"/>
+                                        <field name="exchange_rate" on_change="onchange_exchange_rate(exchange_rate,original_amount)"/>
+                                        <field name="original_amount" on_change="onchange_original_amount(original_amount,exchange_rate)"/>
+                                        <field name="amount" sum="Total efectivo"/>
+                                        <field name="analytic_account" />
+                                    </tree>
+                                    <form string="Cash" col="2">
+                                        <group>
+                                            <field name="currency" on_change="onchange_currency(currency,original_amount,parent.currency)"/>
+                                            <field name="exchange_rate" on_change="onchange_exchange_rate(exchange_rate,original_amount)"/>
+                                            <field name="original_amount" on_change="onchange_original_amount(original_amount,exchange_rate)"/>
+                                            <field name="amount" readonly="1"/>
+                                            <field name="analytic_account" />
+                                        </group>
+                                    </form>
+                                </field>
+                              </group>
+                              <group string="Bank transfers">
+                                <field name="bt_entries" mode="tree" colspan="4" nolabel="1" height="180"
+                                       context="{'default_currency':currency, 'default_transfer_date':date}"  
+                                       on_change="onchange_lines(cash_entries, bt_entries, qm_entries, tpdoc_entries, odoc_entries, debt_entries, tax_entries)"  
+                                       attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                    <tree string="Bank transfers" editable="bottom">
+                                        <field name="bank_account" on_change="onchange_bank_account(bank_account)" 
+                                                                      context="{'default_company':parent.company, 'default_currency':parent.currency}"
+                                                                      domain="[('company_id','=',parent.company)]"/>
+                                        <field name="reference" />
+                                        <field name="account" />                                    
+                                        <field name="currency" on_change="onchange_currency(currency,original_amount,parent.currency)"/>
+                                        <field name="exchange_rate" on_change="onchange_exchange_rate(exchange_rate,original_amount)"/>
+                                        <field name="transfer_date" />
+                                        <field name="original_amount" on_change="onchange_original_amount(original_amount,exchange_rate)"/>
+                                        <field name="amount" sum="Total transfers"/>
+                                        <field name="analytic_account" />
+                                    </tree>
+                                </field>
+                              </group>
+                              <group string="Additional retentions">
+                                <field name="qm_entries" colspan="4" nolabel="1" height="180" 
+                                       on_change="onchange_lines(cash_entries, bt_entries, qm_entries, tpdoc_entries, odoc_entries, debt_entries, tax_entries)" 
+                                       attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                    <tree string="Retentions" editable="bottom">
+                                        <field name="qm" on_change="onchange_qm(qm, parent.company)" domain="[('type','=','performed_retention')]"/>
+                                        <field name="description"/>
+                                        <field name="credit_account" domain="[('type','!=','view')]"/>
+                                        <field name="amount" sum="Total retentions"/>
+                                        <field name="analytic_account" />
+                                    </tree>
+                                    <form string="Retention" >
+                                        <group>
+                                            <field name="qm" on_change="onchange_qm(qm)" domain="[('type','=','received_retention')]"/>
+                                            <field name="description" />
+                                            <separator string="Accounting information" colspan="4"/>
+                                            <field name="credit_account" domain="[('type','!=','view')]"/>
+                                            <field name="amount"/>
+                                            <field name="analytic_account" />
+                                        </group>
+                                    </form>
+                                </field>
+                              </group>
+                              <group string="Third party documents">
+                                <field name="tpdoc_entries" colspan="4" nolabel="1" height="180" 
+                                       context="{'default_received_from':partner, 'default_currency':currency}" 
+                                       on_change="onchange_lines(cash_entries, bt_entries, qm_entries, tpdoc_entries, odoc_entries, debt_entries, tax_entries)" 
+                                       attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                    <tree string="Documents">
+                                        <field name="doc"
+                                               domain="[('state','=','receivable')]"
+                                               context="{'default_partner': parent.partner}"
+                                               on_change="onchange_doc(doc,parent.company)"/>
+                                        <field name="credit_account"/>
+                                        <field name="original_amount"/>
+                                        <field name="currency"/>
+                                        <field name="exchange_rate" on_change="onchange_exchange_rate(exchange_rate,original_amount)"/>
+                                        <field name="amount" sum="Total documents"/>
+                                        <field name="maturity_date"/>
+                                    </tree>
+                                    <form string="Document">
+                                        <group>
+                                            <field name="doc"
+                                                   domain="[('state','=','receivable')]"
+                                                   context="{'default_partner': parent.partner}"
+                                                   on_change="onchange_doc(doc,parent.company)"/>
+                                            <newline />
+                                            <field name="credit_account"/>
+                                            <field name="description"/>
+    
+                                            <field name="original_amount"  />
+                                            <field name="currency"/>
+    
+                                            <field name="exchange_rate" on_change="onchange_exchange_rate(exchange_rate,original_amount)"/>
+                                            <field name="amount" sum="Total documents"/>
+    
+                                            <field name="maturity_date"/>
+                                            <field name="analytic_account"/>
+                                        </group>
+                                    </form>
+                                </field>
+                              </group>
+                              <group string="Own documents">
+                                <field name="odoc_entries" colspan="4" nolabel="1" height="180" 
+                                       context="{'default_received_from':partner, 'default_currency':currency}" 
+                                       on_change="onchange_lines(cash_entries, bt_entries, qm_entries, tpdoc_entries, odoc_entries, debt_entries, tax_entries)" 
+                                       attrs="{'readonly':['|',('journal','=',False),('state','!=','draft')]}">
+                                    <tree string="Own Documents">
+                                        <field name="doc"/>
+                                        <field name="credit_account"/>
+                                        <field name="bank_account"/>
+                                        <field name="original_amount"
+                                               on_change="onchange_oamount(original_amount, exchange_rate)"/>
+                                        <field name="currency"
+                                               on_change="onchange_currency(currency, original_amount, parent.currency)"/>
+                                        <field name="exchange_rate"
+                                               on_change="onchange_exchange_rate(original_amount, exchange_rate)"/>
+                                        <field name="maturity_date"/>
+                                        <field name="transferable"
+                                               on_change="onchange_transferable(transferable, parent.company_id)"/>
+                                        <field name="exchange_rate" 
+                                               on_change="onchange_exchange_rate(exchange_rate,original_amount)"/>
+                                        <field name="amount" sum="Total documents"/>
+                                    </tree>
+                                    <form string="Own Document">
+                                        <group>
+                                            <group string="Reference">
+                                                <field name="doc" />
+                                                <field name="credit_account"/>
+                                                <field name="analytic_account"/>
+                                                <field name="description"/>
+                                            </group>
+                                            <group string="Info">
+                                                <field name="bank_account"
+                                                       domain="[('company_id','=',parent.company)]"
+                                                       context="{'default_company_id': parent.company}"/>
+                                                <field name="original_amount"
+                                                       on_change="onchange_oamount(original_amount, exchange_rate)"/>
+                                                <field name="currency"
+                                                       on_change="onchange_currency(currency, original_amount, parent.currency)"/>
+                                                <field name="exchange_rate"
+                                                       on_change="onchange_currency(currency, original_amount, parent.currency)"/>
+                                                <field name="maturity_date"/>
+                                                <field name="transferable"
+                                                       on_change="onchange_transferable(transferable, parent.company)"/>
+                                                <field name="amount"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                              </group>
+                          </page>
+                          <page string="Supplier's acceptance" attrs="{'invisible': [('state','not in',['posted','payed'])]}" >
+                              <group name="accptance">
+                                <field name="received_by" />
+                                <field name="received_on" />
+                                <field name="reception_notes" />
+                              </group>
+                          </page>
+                          <page string="Other info" >
+                              <group string="Accounting">
+                                <field name="to_be_checked" />
+                                <newline />
+                                <field name="move" />
+                                <field name="cancelation_move" />
+                              </group>
+                              <group string="Notes">
+                                <field name="notes" colspan="4" nolabel="1"/>
+                              </group>
+                          </page>
+                      </notebook>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_supplier_voucher_filter" model="ir.ui.view">
+            <field name="name">account.supplier_voucher.select</field>
+            <field name="model">account.supplier_voucher</field>
+            <field name="type">search</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Search supplier voucher">
+                    <group col='8' colspan='4'>
+                        <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Draft vouchers"/>
+                        <filter icon="terp-camera_test" string="Post" domain="[('state','=','posted')]" help="Posted vouchers"/>
+                        <separator orientation="vertical"/>
+                        <filter icon="terp-gtk-jump-to-ltr" string="To be checked" domain="[('to_be_checked','=',True)]" help="To be checked"/>
+                        <separator orientation="vertical"/>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="partner"/>
+                    </group>
+                    <newline/>
+                    <group col='8' colspan='4'>
+                        <field name="journal" widget="selection" context="{'journal': self, 'set_visible':False}" />
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Extended filters ..." col='8' colspan='4'>
+                        <field name="name"/>
+                        <field name="notes"/>
+                   </group>
+                   <newline/>
+                    <group expand="0" string="Grouped by..." colspan="4" col="10">
+                        <filter string="Supplier" icon="terp-partner" domain="[]" context="{'group_by':'partner'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal'}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="supplier_voucher_action" model="ir.actions.act_window">
+            <field name="name">Supplier vouchers</field>
+            <field name="res_model">account.supplier_voucher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="supplier_voucher_action" id="supplier_voucher_menu"
+            parent="account.menu_finance_payables" sequence="6"/>
+
+
+    </data>
+</openerp>

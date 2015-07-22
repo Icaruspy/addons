@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="pay_pdocument_form" model="ir.ui.view">
+            <field name="name">Pay payable documents form</field>
+            <field name="model">account.pay_pdocument</field>
+            <field name="arch" type="xml">
+                <form string="Pay payable documents" version="7.0">
+                    <group>
+                        <field name="doc" invisible="1" on_change="onchange_doc(doc)"/>
+                        <field name="company" invisible="1" on_change="onchange_company(company, payment_date)" />
+                        <field name="supplier" on_change="onchange_supplier(supplier)"/>
+                        <field name="journal" 
+                               domain="[('type','in',['purchase'])]" 
+                               on_change="onchange_journal(journal, payment_date)" />
+                        <field name="payment_date" 
+                               on_change="onchange_payment_date(payment_date, company)" />
+                        <field name="period" />
+                        <field name="payment_account" />
+                        <button name="action_pay_pdoc" 
+                                string="Pay document" 
+                                type="object" icon="gtk-go-forward"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="pay_pdocument_action" model="ir.actions.act_window">
+            <field name="name">Pay Payable Documents</field>
+            <field name="res_model">account.pay_pdocument</field>
+            <field name="src_model">account.payable_document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <record id="cash_pdocument_form" model="ir.ui.view">
+            <field name="name">Cash payable documents form</field>
+            <field name="model">account.cash_pdocument</field>
+            <field name="arch" type="xml">
+                <form string="Cash documents" version="7.0">
+                    <group>
+                        <field name="docs" invisible="1" />
+                        <field name="journal" 
+                               domain="[('type','in',['bank', 'cash'])]" 
+                               on_change="onchange_journal(journal, cash_date)" />
+                        <field name="cash_date" 
+                               on_change="onchange_cash_date(cash_date, journal)" />
+                        <field name="period" />
+                        <field name="cash_account" />
+                        <button name="action_cash_doc" 
+                                string="Cash document" 
+                                type="object" icon="gtk-go-forward"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="cash_pdocument_action" model="ir.actions.act_window">
+            <field name="name">Cash Documents</field>
+            <field name="res_model">account.cash_pdocument</field>
+            <field name="src_model">account.payable_document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <record id="reject_pdocument_form" model="ir.ui.view">
+            <field name="name">Reject payable documents form</field>
+            <field name="model">account.reject_pdocument</field>
+            <field name="arch" type="xml">
+                <form string="Reject payable documents"  version="7.0">
+                    <group>
+                        <field name="docs" invisible="1" />
+                        <button name="action_reject_doc" 
+                                string="Reject payable document" 
+                                type="object" icon="gtk-go-forward"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="reject_pdocument_action" model="ir.actions.act_window">
+            <field name="name">Reject Payable Documents</field>
+            <field name="res_model">account.reject_pdocument</field>
+            <field name="src_model">account.payable_document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <record id="get_back_pdocument_form" model="ir.ui.view">
+            <field name="name">Get back payable documents form</field>
+            <field name="model">account.get_back_pdocument</field>
+            <field name="arch" type="xml">
+                <form string="Reject payable documents"  version="7.0">
+                    <group>
+                        <field name="docs" invisible="1" />
+                        <button name="action_gb_doc" 
+                                string="Get back payable document" 
+                                type="object" icon="gtk-go-forward"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="get_back_pdocument_action" model="ir.actions.act_window">
+            <field name="name">Get back Documents</field>
+            <field name="res_model">account.get_back_pdocument</field>
+            <field name="src_model">account.payable_document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <record id="pdocument_form" model="ir.ui.view">
+            <field name="name">Payable Document form</field>
+            <field name="model">account.payable_document</field>
+            <field name="arch" type="xml">
+                <form string="Valor" version="7.0">
+                    <header>
+                        <button name="action_complete"  type="object" states="draft" string="Data complete" />
+                        <button name="action_back_to_draft"  type="object" states="data_complete" string="Back to draft" />
+                        <button name="action_confirm"  type="object" states="data_complete" string="Confirm" />
+                        <button name="action_cash"     type="object" states="payable,third_party" string="Cash" />
+                        <button name="action_reject"   type="object" states="payable,third_party" string="Reject" />
+                        <button name="action_get_back" type="object" states="payable,third_party" string="Get back to customer" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,data_complete,payable,cashed,rejected,third_party,canceled" statusbar_colors='{"rejected":"red","cashed":"blue","data_complete":"dark green"}'/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Number or ID"/>
+                        </h1>
+                        <field name="doc_type" placeholder="Document type"/>
+                        <group>
+                            <group string="Issuer">
+                                <field name="issuer_account"
+                                       context="{'default_partner_id': company_partner}"/>
+                                <field name="company" on_change="onchange_original_amount(original_amount, currency, company)"/>
+                                <field name="company_partner" invisible="True" />
+                            </group>
+                            <group string="Payable Document info">
+                                <field name="number"/>
+                                <field name="original_amount" on_change="onchange_original_amount(original_amount, currency, company)"/>
+                                <field name="currency" on_change="onchange_original_amount(original_amount, currency, company)"/>
+                                <field name="amount"/>
+                                <field name="issued_date"/>
+                                <field name="maturity_date"/>
+                                <field name="transferable"/>
+                                <field name="payed_on_account"/>
+                            </group>
+                            <group string="State history">
+                                <field name="payed_on" readonly="1"/>
+                                <field name="cashed_on" readonly="1"/>
+                                <field name="rejected_on" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="pdocument_tree" model="ir.ui.view">
+            <field name="name">Payable Document tree</field>
+            <field name="model">account.payable_document</field>
+            <field name="arch" type="xml">
+                <tree string="Paybale Documents">
+                    <field name="doc_type"/>
+                    <field name="name"/>
+                    <field name="issuer_account"/>
+                    <field name="payed_to"/>
+                    <field name="currency"/>
+                    <field name="original_amount"/>
+                    <field name="amount"/>
+                    <field name="maturity_date"/>
+                    <field name="transferable"/>
+                    <field name="payed_on"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pdocument_search" model="ir.ui.view">
+            <field name="name">Payable Document search</field>
+            <field name="model">account.payable_document</field>
+            <field name="arch" type="xml">
+                <search string="Document">
+                    <field name="name" />
+                    <field name="doc_type" />
+                    <field name="payed_to"/>
+                    <field name="company"/>
+                    <field name="currency"/>
+                    <field name="maturity_date"/>
+                    <field name="transferable"/>
+                    <field name="payed_to"/>
+                    <field name="cashed_on"/>
+                    <field name="rejected_on"/>
+
+                    <filter icon="terp-document-new" string="Draft" name="draft" domain="[('state','in',('draft'))]" help="Payable Documents that haven't yet been confirmed"/>
+                    <filter icon="terp-document-new" string="Payable" name="draft" domain="[('state','in',('payable'))]" help="Payable Documents that have to be payed"/>
+                    <filter icon="terp-document-new" string="Rejected" name="rejected" domain="[('state','in',('rejected'))]" help="Documents that have been rejected"/>
+                    <filter icon="terp-document-new" string="Canceled" name="canceled" domain="[('state','in',('canceled'))]" help="Document that have been got back to customer"/>
+
+                    <filter icon="terp-document-new" string="To cash" name="draft" domain="[('state','in',('payable')),('maturity_date','%lt;',context_today()]" help="Payable documents with maturity date before today"/>
+
+                    <group expand="0" string="Group By...">
+                        <filter string="Payed to" icon="terp-personal" domain="[]" context="{'group_by':'payed_to'}"/>
+                        <filter string="Transferable" icon="terp-personal" domain="[]" context="{'group_by':'transferable'}"/>
+                        <filter string="Doc. Type" icon="terp-personal" domain="[]" context="{'group_by':'doc_type'}"/>
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Payed on" icon="terp-go-month" domain="[]" context="{'group_by':'payed_on'}"/>
+                        <filter string="Cashed on" icon="terp-go-month" domain="[]" context="{'group_by':'cashed_on'}"/>
+                        <filter string="Rejected on" icon="terp-go-month" domain="[]" context="{'group_by':'rejected_on'}"/>
+                        <filter string="Back from partner on" icon="terp-go-month" domain="[]" context="{'group_by':'back_from_partner_on'}"/>
+                        <filter string="Company" icon="terp-personal+" domain="[]" context="{'group_by':'company'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="pdocument_action" model="ir.actions.act_window">
+            <field name="name">Payable Documents</field>
+            <field name="res_model">account.payable_document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem action="pdocument_action" id="pdocument_menu"
+            parent="account.menu_finance_bank_and_cash" sequence="5"/>
+
+        <record id="action_res_bank_form" model="ir.actions.act_window">
+            <field name="name">Banks</field>
+            <field name="res_model">res.bank</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new bank.
+              </p><p>
+                Manage bank records you want to be used in the system.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="action_res_bank_form" id="bank_menu"
+            parent="account.menu_finance_bank_and_cash" sequence="6"/>
+
+        <record id="action_res_partner_bank_account_action" model="ir.actions.act_window">
+            <field name="name">Bank Own Accounts</field>
+            <field name="res_model">res.partner.bank</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('company_id','!=',False)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a bank account.
+              </p><p>
+                Configure your company's bank accounts and select those that must appear on the report footer.
+                You can reorder bank accounts from the list view.
+              </p>
+              <p>
+                If you use the accounting application of Odoo, journals and accounts will be created automatically based on these data.
+              </p>  
+            </field>
+        </record>
+        <menuitem action="action_res_partner_bank_account_action" id="bank_account_menu"
+            parent="account.menu_finance_bank_and_cash" sequence="6"/>
+
+
+        <!--
+        ======================
+        Company
+        ======================
+        -->
+        <record id="view_company_payable_form" model="ir.ui.view">
+            <field name="name">Company with Own Document settings form view</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="numa_account.view_company_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page[@string='Accounting settings']/group[@name='Accounting']" position="inside">
+                        <field name="nt_pdocs_account" />
+                        <field name="t_pdocs_account" />
+                        <field name="pdoc_reject_service" />
+                        <field name="pdoc_reject_charge_service" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

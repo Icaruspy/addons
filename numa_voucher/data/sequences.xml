@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences for Customer Voucher -->
+        <record id="customer_voucher_seq_type" model="ir.sequence.type">
+            <field name="name">Customer voucher</field>
+            <field name="code">customer_voucher</field>
+        </record>
+
+        <record id="customer_voucher_seq" model="ir.sequence">
+            <field name="name">Customer voucher</field>
+            <field name="code">customer_voucher</field>
+            <field name="prefix">CV</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for Customer Reconciliation -->
+        <record id="customer_reconciliation_seq_type" model="ir.sequence.type">
+            <field name="name">Customer reconciliation</field>
+            <field name="code">customer_reconciliation</field>
+        </record>
+
+        <record id="customer_reconciliation_seq" model="ir.sequence">
+            <field name="name">Customer reconciliation</field>
+            <field name="code">customer_reconciliation</field>
+            <field name="prefix">CR</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for Payment Orders -->
+        <record id="payment_order_seq_type" model="ir.sequence.type">
+            <field name="name">Payment Order</field>
+            <field name="code">payment_order</field>
+        </record>
+
+        <record id="payment_order_seq" model="ir.sequence">
+            <field name="name">Payment Order</field>
+            <field name="code">payment_order</field>
+            <field name="prefix">PAYO</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for Supplier Reconciliation -->
+        <record id="supplier_reconciliation_seq_type" model="ir.sequence.type">
+            <field name="name">Supplier reconciliation</field>
+            <field name="code">supplier_reconciliation</field>
+        </record>
+
+        <record id="cupplier_reconciliation_seq" model="ir.sequence">
+            <field name="name">Supplier reconciliation</field>
+            <field name="code">supplier_reconciliation</field>
+            <field name="prefix">SR</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</openerp>

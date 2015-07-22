@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Invoices -->
+        <record id="invoice_tree" model="ir.ui.view">
+            <field name="name">EDYDSI Invoice list</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="number" position="before">
+                        <field name="branch" />
+                        <field name="sales_point" />
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">EDYDSI Invoice form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="number" position="before">
+                        <field name="branch" placeholder="Branch..." width="60%"/>
+                        <field name="sales_point" placeholder="Accounting Sales Point .." width="40%"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">EDYDSI Invoice search</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="number" position="before">
+                        <field name="branch" />
+                        <field name="sales_point" />
+                    </field>
+                    <filter name="group_by_partner_id" position="before" >
+                    	  <filter name="group_by_branch" string="Branch" context="{'group_by':'branch'}"/>
+                    	  <filter name="group_by_sales_point" string="Sales Point" context="{'group_by':'sales_point'}"/>
+                        <separator/>
+                    </filter>
+                </data>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

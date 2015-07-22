@@ -1,0 +1,12 @@
+if [ -f pidfile.txt ]; then
+    MAINPID=`cat pidfile.txt`
+    CHILDPIDS=$(pgrep -P $MAINPID)
+    if [ "$CHILDPIDS" > " " ]; then
+        kill -TERM $CHILDPIDS;
+    fi
+    kill -TERM $MAINPID;
+    echo "Odoo stopped (process $MAINPID)"
+else
+    echo "No pidfile.txt file found. Odoo should be already stopped"
+fi
+

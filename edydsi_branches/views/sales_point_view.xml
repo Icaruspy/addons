@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="False" >
+
+        <menuitem name="Sales Points" id="sales_point_menu" 
+                  parent="base.menu_administration" 
+                  sequence="4"
+                  groups="base.group_no_one"/>
+
+        <record id="sales_point_form_view" model="ir.ui.view">
+            <field name="name">Sales Point form</field>
+            <field name="model">res.sales_point</field>
+            <field name="arch" type="xml">
+                <form string="Sales Point">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                            <h2>
+                                <field name="company" 
+                                       placeholder="Company..."/>
+                                <field name="legal_id"
+                                       placeholder="Legal ID..."/>
+                            </h2>
+                        </div>
+                        <group name="general_description">
+                            <group string="Accounting info" colspan="2" cols="2">
+                                <field name="usage" />
+                                <field name="timbrado" />
+                                <field name="timbrado_due_date" />
+                                <field name="is_valid" />
+                                <field name="sequence" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sales_point_list_view" model="ir.ui.view">
+            <field name="name">Sales Points</field>
+            <field name="model">res.sales_point</field>
+            <field name="arch" type="xml">
+                <tree string="Branches">
+                    <field name="name" />
+                    <field name="company" />
+                    <field name="usage" />
+                    <field name="is_valid" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="sales_point_action" model="ir.actions.act_window">
+            <field name="name">Sales points</field>
+            <field name="res_model">res.sales_point</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Sales Points" id="sales_point_menu" 
+                  parent="base.menu_res_company_global" 
+                  action="sales_point_action"
+                  sequence="18"
+                  groups="base.group_no_one"/>
+
+    </data>
+</openerp>

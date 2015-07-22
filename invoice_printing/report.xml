@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report id="preprinted_invoice_action"
+            string="Preprinted Invoice"
+            model="account.invoice" 
+            report_type="qweb-pdf"
+            file="invoice_printing.report_preprinted_invoice" 
+            name="invoice_printing.report_preprinted_invoice" 
+        />
+
+        <record id="preprinted_invoice_action" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_pi" />
+        </record>
+    </data>
+</openerp>
+

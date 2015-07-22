@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="action_report_cheque" 
+            model="account.payable_document" 
+            string="Cheque"
+            report_type="qweb-pdf"
+            name="numa_cp_test_bank.report_cheque" 
+            file="numa_cp_test_bank.report_cheque" 
+        />
+
+        <record id="action_report_cheque" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_frenchcheck"/>
+        </record>
+
+        <record id="cheque_model" model="account.bank_printing_model">
+            <field name="name" >Test Model</field>
+            <field name="notes" >Esta es una prueba de modelo de impresión</field>
+            <field name="report" ref="action_report_cheque" />
+        </record>
+
+    </data>
+</openerp>
