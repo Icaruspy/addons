@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+    <record id="view_order_form_aprobe" model="ir.ui.view">
+        <field name="name">sale.order.form.aprobe</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="pricelist_id" position="after">
+                <field name="sale_order_aprobe" string="Aprobado" help="Aprobación por Gerencia Comercial" groups="account.group_account_manager"/>
+            </field>
+        </field>
+    </record>
+
+</data>
+</openerp>
