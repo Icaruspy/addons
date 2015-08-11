@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="False">
+      <record id="base.PYG" model="res.currency">
+          <field name="name">PYG</field>
+          <field name="symbol">₲</field>			            
+          <field name="rounding">1</field>
+          <field name="accuracy">4</field>
+      </record>
+</data>
+</openerp>

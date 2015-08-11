@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="False">
+    <record model="res.country.state" id="AS">
+      <field name="name">Asunción</field>
+      <field name="country_id">187</field>
+      <field name="code">AS</field>
+    </record>
+    <record model="res.country.state" id="01">
+      <field name="name">Concepción</field>
+      <field name="country_id">187</field>
+      <field name="code">01</field>
+    </record>
+    <record model="res.country.state" id="02">
+      <field name="name">San Pedro</field>
+      <field name="country_id">187</field>
+      <field name="code">02</field>
+    </record>
+    <record model="res.country.state" id="03">
+      <field name="name">Cordillera</field>
+      <field name="country_id">187</field>
+      <field name="code">03</field>
+    </record>
+    <record model="res.country.state" id="04">
+      <field name="name">Guaira</field>
+      <field name="country_id">187</field>
+      <field name="code">04</field>
+    </record>
+    <record model="res.country.state" id="05">
+      <field name="name">Caaguazú</field>
+      <field name="country_id">187</field>
+      <field name="code">05</field>
+    </record>
+    <record model="res.country.state" id="06">
+      <field name="name">Caazapa</field>
+      <field name="country_id">187</field>
+      <field name="code">06</field>
+    </record>
+    <record model="res.country.state" id="07">
+      <field name="name">Itapúa</field>
+      <field name="country_id">187</field>
+      <field name="code">07</field>
+    </record>
+    <record model="res.country.state" id="08">
+      <field name="name">Misiones</field>
+      <field name="country_id">187</field>
+      <field name="code">08</field>
+    </record>
+    <record model="res.country.state" id="09">
+      <field name="name">Paraguari</field>
+      <field name="country_id">187</field>
+      <field name="code">09</field>
+    </record>
+    <record model="res.country.state" id="10">
+      <field name="name">Alto Paraná</field>
+      <field name="country_id">187</field>
+      <field name="code">10</field>
+    </record>
+    <record model="res.country.state" id="11">
+      <field name="name">Central</field>
+      <field name="country_id">187</field>
+      <field name="code">11</field>
+    </record>
+    <record model="res.country.state" id="12">
+      <field name="name">Ñeembucu</field>
+      <field name="country_id">187</field>
+      <field name="code">12</field>
+    </record>
+   <record model="res.country.state" id="13">
+      <field name="name">Amambay</field>
+      <field name="country_id">187</field>
+      <field name="code">13</field>
+    </record>
+    <record model="res.country.state" id="14">
+      <field name="name">Canindeyú</field>
+      <field name="country_id">187</field>
+      <field name="code">14</field>
+    </record>
+    <record model="res.country.state" id="15">
+      <field name="name">Villa Hayes</field>
+      <field name="country_id">187</field>
+      <field name="code">15</field>
+    </record>
+    <record model="res.country.state" id="16">
+      <field name="name">Alto Paraguay</field>
+      <field name="country_id">187</field>
+      <field name="code">16</field>
+    </record>
+    <record model="res.country.state" id="17">
+      <field name="name">Boquerón</field>
+      <field name="country_id">187</field>
+      <field name="code">17</field>
+    </record>
+</data>
+</openerp>

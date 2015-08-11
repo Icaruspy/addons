@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp> 
+	<data>
+<record id="ir_ui_view_rescurrencyform0" model="ir.ui.view">
+			<field name="name">res.currency.form</field>
+			<field name="arch">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;form string=&quot;Currency&quot;&gt;
+                    &lt;group col=&quot;6&quot; colspan=&quot;6&quot;&gt;
+                        &lt;field name=&quot;name&quot; select=&quot;1&quot;/&gt;
+                        &lt;field name=&quot;rate&quot;/&gt;
+                        &lt;field groups=&quot;base.group_multi_company&quot; name=&quot;company_id&quot; select=&quot;2&quot;/&gt;
+                        &lt;field name=&quot;symbol&quot;/&gt;
+                    &lt;/group&gt;
+
+                    &lt;group col=&quot;2&quot; colspan=&quot;2&quot;&gt;
+                        &lt;separator colspan=&quot;2&quot; string=&quot;Price Accuracy&quot;/&gt;
+                        &lt;field name=&quot;rounding&quot;/&gt;
+                        &lt;field name=&quot;accuracy&quot;/&gt;
+                    &lt;/group&gt;
+
+                    &lt;group col=&quot;2&quot; colspan=&quot;2&quot;&gt;
+                        &lt;separator colspan=&quot;2&quot; string=&quot;Miscelleanous&quot;/&gt;
+                        &lt;field name=&quot;base&quot;/&gt;
+                        &lt;field name=&quot;active&quot; select=&quot;1&quot;/&gt;
+                    &lt;/group&gt;
+
+                    &lt;field attrs=&quot;{'readonly':[('base','=',True)]}&quot; colspan=&quot;4&quot; mode=&quot;tree,form&quot; name=&quot;rate_ids&quot; nolabel=&quot;1&quot;&gt;
+                        &lt;form string=&quot;Rates&quot;&gt;
+                            &lt;field name=&quot;name&quot;/&gt;
+                            &lt;field name=&quot;rate&quot; readonly=&quot;1&quot; /&gt;
+			    &lt;field name=&quot;tasa&quot; required=&quot;1&quot; string=&quot;Tasa&quot; on_change="on_change_tasa(tasa,rate)"/&gt;
+                        &lt;/form&gt;
+                        &lt;tree string=&quot;Rates&quot;&gt;
+                            &lt;field name=&quot;name&quot;/&gt;
+			    &lt;field name=&quot;tasa&quot; required=&quot;1&quot; string=&quot;Tasa&quot;/&gt;
+                        &lt;/tree&gt;
+                    &lt;/field&gt;
+                &lt;/form&gt;</field>
+			<field eval="16" name="priority"/>
+			<field name="model">res.currency</field>
+			<field name="type">form</field>
+		</record>
+	</data>
+</openerp>

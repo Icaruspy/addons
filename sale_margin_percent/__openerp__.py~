@@ -1,0 +1,7 @@
+{
+        'name': 'Sales Margin Percent in Sales Orders',
+        'description': 'Provides sales margin percent information in Sales Orders, line by line',
+        'author': 'E.M.',
+        'depends': ['sale','sale_margin'],
+        'data': ['sale_margin_percent.xml'],
+} 

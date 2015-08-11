@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp> 
+	<data>
+
+		<!-- Parceiro Personalizado -->
+		<record model="ir.ui.view" id="view_l10n_py_base_partner_filter">
+			<field name="name">l10n_py_base.partner.filter</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+                                        <field name="nombre_fantasia" />
+					<field name="ruc" />
+					<field name="documento" />
+					<field name="contacto" /> 	
+				</field>
+			</field>
+		</record> 
+               
+		
+		<record model="ir.ui.view" id="view_l10n_py_base_partner_tree">
+			<field name="name">l10n_py_base.partner.tree</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="arch" type="xml">
+				<field name="display_name" position="after">
+                                	<field name="nombre_fantasia" />
+					<field name="ruc" />
+					<field name="documento" />  	
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_l10n_py_base_partner_form">
+			<field name="name">l10n_py_base.partner.form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+				    <field name="nombre_fantasia" placeholder='Nombre Fantasia empresa' />
+					<field name="ruc" colspan="2" on_change="on_change_mask_ruc(ruc)" placeholder="R U C"/> 
+					<field name="documento" placeholder='Numero Documento'/> 
+					<field name="contacto" placeholder='Contacto' />	
+				</field>
+			</field>
+		</record>	
+	</data>
+</openerp>

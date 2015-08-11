@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="act_quotation_approved" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">Approved</field>
+            <field name="kind">function</field>
+            <field name="action">action_quotation_approve()</field>
+        </record>
+        <record id="trans_quotation_draft_to_approved" model="workflow.transition">
+            <field name="act_from" ref="sale.act_draft"/>
+            <field name="act_to" ref="act_quotation_approved"/>
+            <field name="signal">approve_quotation</field>
+        </record>
+    </data>
+</openerp>
