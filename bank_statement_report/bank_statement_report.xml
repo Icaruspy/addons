@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_bank_statement_report_graph" model="ir.ui.view">
+         <field name="name">bank.statement.report.graph</field>
+         <field name="model">bank.statement.report</field>
+         <field name="arch" type="xml">
+             <graph string="Análisis de Recaudaciones" type="pivot">
+                 <field name="statement_id" type="row"/>
+                 <field name="journal_id" type="col"/>
+                 <field name="amount" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <!-- Custom reports (aka filters) -->
+    <!--record id="filter_bank_statement_report_collector" model="ir.filters">
+        <field name="name">Por Cobrador</field>
+        <field name="model_id">bank.statement.report</field>
+        <field name="domain">[]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['collector']}</field>
+    </record-->
+    <!--record id="filter_invoice_lines_product" model="ir.filters">
+        <field name="name">Por Producto</field>
+        <field name="model_id">account.invoice.lines.report</field>
+        <field name="domain">[]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'product_id'], 'set_visible':True, 'residual_invisible':True}</field>
+    </record>
+    <record id="filter_invoice_lines_product_category" model="ir.filters">
+        <field name="name">Por Categoría de Producto</field>
+        <field name="model_id">account.invoice.lines.report</field>
+        <field name="domain">[]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'categ_id'], 'residual_invisible':True}</field>
+    </record>
+    <record id="filter_invoice_lines_refund" model="ir.filters">
+        <field name="name">Por Devoluciones</field>
+        <field name="model_id">account.invoice.lines.report</field>
+        <field name="domain">[('type', '=', 'out_refund')]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'user_id']}</field>
+    </record>
+    <record id="filter_invoice_lines_country" model="ir.filters">
+        <field name="name">Por Pais</field>
+        <field name="model_id">account.invoice.lines.report</field>
+        <field name="domain">[]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': ['date:month', 'country_id']}</field>
+    </record-->
+
+    <record id="view_bank_statement_report_search" model="ir.ui.view">
+        <field name="name">bank.statement.report.search</field>
+        <field name="model">bank.statement.report</field>
+        <field name="arch" type="xml">
+            <search string="Análisis de Recaudaciones">
+                <field name="date"/>
+                <filter string="Este año" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]" help="Recaudaciones del año"/>
+                <separator/>
+                <!--filter string="a Facturar" domain="[('state','=','draft')]" help = "Draft Invoices"/>
+                <filter string="Pro-forma" domain="['|', ('state','=','proforma'),('state','=','proforma2')]"/>
+                <filter string="Facturado" name="current" domain="[('state','not in', ('draft','cancel','proforma','proforma2'))]"/>
+                <separator/>
+                <filter string="Cliente" name="customer" domain="['|', ('type','=','out_invoice'),('type','=','out_refund')]"/>
+                <filter string="Proveedor" domain="['|', ('type','=','in_invoice'),('type','=','in_refund')]"/>
+                <separator/>
+                <filter string="Facturas" domain="['|', ('type','=','out_invoice'),('type','=','in_invoice')]"/>
+                <filter string="Devolución" domain="['|', ('type','=','out_refund'),('type','=','in_refund')]"/-->
+                <field name="cliente"/>
+                <field name="collector"/>
+                <field name="issue_date"/>
+                <!--field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/-->
+                <group expand="1" string="Group By">
+                    <filter string="Cliente" name="cliente" context="{'group_by':'cliente'}"/>
+                    <filter string="Cobrador" name='collector' context="{'group_by':'collector'}"/>
+                    <!--filter string="Proveedor" name='user' context="{'group_by':'supplier_id'}"/>
+                    <filter string="Categoría de Producto" name="category_product" context="{'group_by':'categ_id','residual_invisible':True}"/>
+                    <filter string="Producto" name="product" context="{'group_by':'product_id','residual_invisible':True}"/>
+                    <filter string="Estado" context="{'group_by':'state'}"/>
+                    <filter string="Compañia" context="{'group_by':'company_id'}" groups="base.group_multi_company"/-->
+                    <separator orientation="vertical" />
+                    <!--filter string="Periodo" context="{'group_by':'period_id'}"/-->
+                    <filter string="Mes de Cobro" context="{'group_by':'issue_date:month'}"/>
+		    <!--filter string="Tipo Factura" context="{'group_by':'type'}"/-->
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_bank_statement_report_all" model="ir.actions.act_window">
+        <field name="name">Análisis sobre Recaudaciones</field>
+        <field name="res_model">bank.statement.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <!--field name="context">{'search_default_current':1, 'search_default_customer':1, 'group_by':[], 'group_by_no_leaf':1, 'search_default_year': 1}</field-->
+        <field name="search_view_id" ref="view_bank_statement_report_search"/>
+        <field name="help">Desde aquí puede hacer un análisis de las recaudaciones y ajustar el informe según sus necesidades.</field>
+
+    </record>
+
+    <menuitem action="action_bank_statement_report_all" 
+	id="menu_action_bank_statement_report_all" 
+	parent="account.menu_finance_reporting" 
+	sequence="2"/>
+
+    <!--act_window
+        id="act_account_invoice_lines_partner_relation"
+        name="Monthly Turnover"
+        groups="group_account_manager"
+        context="{'search_default_partner_id':[active_id], 'search_default_month':1,'search_default_user':1,'group_by_no_leaf':1,'group_by':[]}"
+        res_model="account.invoice.lines.report"
+        src_model="res.partner"
+        view_mode="graph"/-->
+
+</data>
+</openerp>
